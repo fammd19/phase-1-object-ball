@@ -7,7 +7,7 @@ function gameObject () {
                 "Alan Anderson": {
                         number: 0,
                         shoe: 18,
-                        points: 10,
+                        points: 22,
                         rebounds: 1,
                         assists: 1,
                         steals: 3,
@@ -211,3 +211,94 @@ let bigShoeRebounds = () => {
 }
 
 console.log(bigShoeRebounds());
+
+//Player with most points scored
+function mostPointsScored () {
+    const playerPoints = [];
+    let playerName = "";
+    let topPoints;
+    for (let team in game) {
+        for (let player in game[team].players) {
+            playerPoints.push(game[team].players[player].points);
+            topPoints = Math.max(...playerPoints);
+        }
+    }
+    for (let team in game) {
+        for (let player in game[team].players) {
+            if (game[team].players[player].points === topPoints) {
+                playerName = player;
+                return player
+            }  
+        }
+    }        
+}
+
+console.log(mostPointsScored());
+
+
+/*
+//Other option for mostPointsScored
+function mostPointsScored() {
+    let playerName = "";
+    let topPoints = 0;
+
+    for (let team in game) {
+        for (let player in game[team].players) {
+            const points = game[team].players[player].points;
+            if (points > topPoints) {
+                topPoints = points;
+                playerName = player;
+            }
+        }
+    }
+
+    return playerName;
+}
+
+console.log(mostPointsScored());*/
+
+//Team with most points i.e. winning team
+function winningTeam () {
+    let homePoints = 0;
+    let awayPoints = 0;
+    for (let player in game.home.players)
+        homePoints += (game.home.players[player].points);
+    for (let player in game.away.players)
+        awayPoints += (game.away.players[player].points); 
+    if (homePoints<awayPoints) {
+        return game.away.teamName
+    } else {
+        return game.home.teamName;
+    }
+}
+
+console.log(winningTeam());
+
+//Return player with the longest name
+function playerWithLongestName () {
+    let longestPlayerName = "";
+    let currentPlayerName = "";
+    for (let team in game) {
+        for (let player in game[team].players) {
+            let currentPlayerName = player;
+            if (currentPlayerName.length > longestPlayerName.length) {
+                longestPlayerName = currentPlayerName;
+            }
+        } 
+    } return longestPlayerName;
+}
+
+console.log(playerWithLongestName());
+
+//Write a function that returns true if the player with the longest name had the most steals
+function doesLongNameStealATon () { 
+    let longestPlayerName = playerWithLongestName();
+    let topPoints = mostPointsScored();
+    if (topPoints === longestPlayerName) {
+        return true;
+    } else {
+        return false
+    }
+}
+
+console.log(doesLongNameStealATon());
